@@ -1,0 +1,19 @@
+{% extends 'layout.html' %}
+{% block content %}
+  <div class="container">
+    <div class="container-fluid">
+        <div class="row">
+          <div class="col-md-4">
+                    <form method="post" action="{% url 'updateProduit' %}">
+                        {% csrf_token %}
+                        <input type="hidden" value="{{produit.id}}" name="id">
+                        <label class="form-label">Libelle: </label><input type="text" value="{{produit.libelle}}" class="form-control" name="libelle">
+                        <label class="form-label">Prix: </label><input value="{{produit.prix}}" step="any" inputmode="decimal" class="form-control" name="prix">
+                        <label class="form-label">Quantite: </label><input value="{{produit.quantite}}"  class="form-control" name="quantite">
+                        <button type="submit" class="btn btn-dark">Ajouter</button>
+                    </form>
+                </div>
+        </div>
+    </div>
+  </div>
+{% endblock %}

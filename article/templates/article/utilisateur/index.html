@@ -1,0 +1,52 @@
+{% extends 'layout.html' %}
+{% block content %}
+    <div class="container">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-4">
+                    <form method="post" action="{% url 'addUser' %}" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <label class="form-label">Nom: </label><input type="text" class="form-control" name="username">
+                        <label class="form-label">Prenom: </label><input type="text" class="form-control" name="prenom">
+                        <label class="form-label">Email: </label><input type="text" class="form-control" name="email">
+                        <label class="form-label">Mot de pass: </label><input type="text" class="form-control" name="password">
+                        <label class="form-label">Adresse: </label><input type="text" class="form-control" name="adresse">
+                        <label class="form-label">IMAGE: </label><input type="file" class="form-control" name="photo">
+
+                        <button type="submit" class="btn btn-dark">Ajouter</button>
+                    </form>
+                </div>
+                <div class="col-md-8">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>LIBELLE</th>
+                                <th>PRIX</th>
+                                <th>QUANTITE</th>
+                                <th>DATE DE CREATION</th>
+                                <th>ACTIONS</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for p in produits %}
+                                <tr>
+                                    <td>{{p.id}}</td>
+                                    <td>{{p.libelle}}</td>
+                                    <td>{{p.prix}}</td>
+                                    <td>{{p.quantite}}</td>
+                                    <td>{{p.dateCreation}}</td>
+                                    <td>
+                                        <a href="{% url 'supprimerProduit' p.id %}" class="btn btn-sm btn-danger">sup</a>
+                                        <a href="{% url 'getUpdateProd' p.id %}" class="btn btn-sm btn-warning">del</a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

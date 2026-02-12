@@ -1,0 +1,62 @@
+{% extends 'layout.html' %}
+{% block content %}
+    <div class="container">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-4">
+                    <form method="post" action="{% url 'addProduit' %}">
+                        {% csrf_token %}
+                        <label class="form-label">Libelle: </label><input type="text" class="form-control" name="libelle">
+                        <label class="form-label">Prix: </label><input type="number" step="any" inputmode="decimal" class="form-control" name="prix">
+                        <label class="form-label">Quantite: </label><input type="number"  class="form-control" name="quantite">
+                        <button type="submit" class="btn btn-dark">Ajouter</button>
+                    </form>
+                </div>
+                <div class="col-md-8">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>LIBELLE</th>
+                                <th>PRIX</th>
+                                <th>QUANTITE</th>
+                                <th>DATE DE CREATION</th>
+                                <th>ACTIONS</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for p in produits %}
+                                <tr>
+                                    <td>{{p.id}}</td>
+                                    <td>{{p.libelle}}</td>
+                                    <td>{{p.prix}}</td>
+                                    <td>{{p.quantite}}</td>
+                                    <td>{{p.dateCreation}}</td>
+                                    <td>
+                                        <a href="{% url 'supprimerProduit' p.id %}" class="btn btn-sm btn-danger">sup</a>
+                                        <a href="{% url 'getUpdateProd' p.id %}" class="btn btn-sm btn-warning">del</a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                     <div class="pagination">
+                        {% if produits.has_previous %}
+                            <a href="?page=1">« Première</a>
+                            <a href="?page={{ produits.previous_page_number }}">Précédente</a>
+                        {% endif %}
+
+                        <span>
+                            Page {{ produits.number }} sur {{ produits.paginator.num_pages }}
+                        </span>
+
+                        {% if produits.has_next %}
+                            <a href="?page={{ produits.next_page_number }}">Suivante</a>
+                            <a href="?page={{ produits.paginator.num_pages }}">Dernière</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
